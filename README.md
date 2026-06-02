@@ -1,11 +1,15 @@
 # CoLean
 
-CoLean is a correspondence-guided prototype for Lean autoformalization.
+CoLean is the first verification-oriented prototype of Correspondence Computing.
+Lean is the current benchmark and correctness surface; the deeper project is a
+mathematical substrate for next-generation AI reasoning systems and future
+CoPU/C-IR execution.
 
 The central claim is:
 
 ```text
-Autoformalization is not text generation; it is structured correspondence search.
+Reasoning is not primarily dense tensor evaluation or one-shot text generation.
+Reasoning is structured correspondence search over composable event spaces.
 ```
 
 Instead of asking an LLM to produce one final proof, CoLean keeps weighted candidate
@@ -31,6 +35,7 @@ This repository currently contains:
 - `colean_v0/`: Python prototype for correspondence composition, local LLM ranking, Lean verification, incremental failure localization, and feedback learning.
 - `colean_mathlib/`: Lean 4 / Mathlib project with verified finite-sum, bucket, and Kakeya-toy incidence lemmas.
 - `docs/reports/`: current experiment reports and JSON outputs.
+- `docs/foundation/`: foundational note in Markdown, DOCX, and PDF form.
 
 Highlights:
 
@@ -113,6 +118,10 @@ The next goal is to turn CoLean into a benchmarkable system:
 See [ROADMAP.md](ROADMAP.md).
 
 For current progress, see [STATUS.md](STATUS.md).
+
+For the core mathematical foundation, see [docs/foundation/FOUNDATIONS.md](docs/foundation/FOUNDATIONS.md),
+[DOCX](docs/foundation/Correspondence_Computing_Foundations_v0_1.docx), and
+[PDF](docs/foundation/Correspondence_Computing_Foundations_v0_1.pdf).
 
 For model/toolchain asset policy, see [docs/ASSETS.md](docs/ASSETS.md).
 

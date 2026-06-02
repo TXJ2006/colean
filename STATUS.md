@@ -21,6 +21,7 @@ Lean/Mathlib build: pass
 
 | area | status | notes |
 |---|---|---|
+| Correspondence Computing foundation | done v0.1 | Markdown, DOCX, and PDF uploaded under `docs/foundation/` |
 | Correspondence engine | done v0 | weighted events, fiber join, compose, push/reduce |
 | Lean kernel verifier | done v0 | pure Lean candidate checking |
 | Mathlib verifier | done v0 | `lake env lean` candidate checking |
@@ -49,6 +50,7 @@ KakeyaToy.lean: 1 definition, 7 theorems, sorry = 0
 | Python prototype | Git repository | uploaded |
 | Lean source | Git repository | uploaded |
 | Experiment reports | Git repository | uploaded |
+| Core foundation note | Git repository | Markdown, DOCX, and PDF uploaded |
 | Lean toolchain version | `lean-toolchain` file | uploaded |
 | Mathlib dependency lock | `lake-manifest.json` | uploaded |
 | Ollama model names | `docs/ASSETS.md` and scripts | uploaded |
@@ -63,4 +65,3 @@ KakeyaToy.lean: 1 definition, 7 theorems, sorry = 0
 3. Build a type-aware Mathlib retrieval index.
 4. Connect proof-state search through Lean/LSP or a stable Lean process loop.
 5. Start Lean benchmark challenges after the harness is stable.
-

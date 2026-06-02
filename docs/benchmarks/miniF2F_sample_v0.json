@@ -1,0 +1,568 @@
+{
+  "benchmark": "miniF2F-lean4",
+  "split": "Test",
+  "source_repository": "https://github.com/yangky11/miniF2F-lean4",
+  "source_revision": "5746b7d6c47855ce1294bed87329618ff7f1bc31",
+  "tasks": [
+    {
+      "task_id": "minif2f_test_aime_1983_p1",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1983_p1.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1983_p1",
+      "theorem_header": "theorem aime_1983_p1 (x y z w : ℕ) (ht : 1 < x ∧ 1 < y ∧ 1 < z) (hw : 0 ≤ w)\n    (h0 : Real.log w / Real.log x = 24) (h1 : Real.log w / Real.log y = 40)\n    (h2 : Real.log w / Real.log (x * y * z) = 12) : Real.log w / Real.log z = 60 := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "minif2f_test_aime_1983_p2",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1983_p2.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1983_p2",
+      "theorem_header": "theorem aime_1983_p2\n  (x p : ℝ)\n  (f : ℝ → ℝ)\n  (h₀ : 0 < p ∧ p < 15)\n  (h₁ : p ≤ x ∧ x ≤ 15)\n  (h₂ : f x = abs (x - p) + abs (x - 15) + abs (x - p - 15)) :\n  15 ≤ f x := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "minif2f_test_aime_1983_p3",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1983_p3.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1983_p3",
+      "theorem_header": "theorem aime_1983_p3\n  (f : ℝ → ℝ)\n  (h₀ : ∀ x, f x = (x^2 + (18 * x +  30) - 2 * Real.sqrt (x^2 + (18 * x + 45))))\n  (h₁ : Fintype (f⁻¹' {0})) :\n  ∏ x ∈ (f⁻¹' {0}).toFinset, x = 20 := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "minif2f_test_aime_1984_p1",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1984_p1.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1984_p1",
+      "theorem_header": "theorem aime_1984_p1\n  (u : ℕ → ℚ)\n  (h₀ : ∀ n, u (n + 1) = u n + 1)\n  (h₁ : ∑ k ∈ Finset.range 98, u k.succ = 137) :\n  ∑ k ∈ Finset.range 49, u (2 * k.succ) = 93 := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "minif2f_test_aime_1984_p7",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1984_p7.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1984_p7",
+      "theorem_header": "theorem aime_1984_p7\n  (f : ℤ → ℤ)\n  (h₀ : ∀ n, 1000 ≤ n → f n = n - 3)\n  (h₁ : ∀ n, n < 1000 → f n = f (f (n + 5))) :\n  f 84 = 997 := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "minif2f_test_aime_1987_p5",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1987_p5.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1987_p5",
+      "theorem_header": "theorem aime_1987_p5\n  (x y : ℤ)\n  (h₀ : y^2 + 3 * (x^2 * y^2) = 30 * x^2 + 517):\n  3 * (x^2 * y^2) = 588 := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "minif2f_test_aime_1988_p8",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1988_p8.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1988_p8",
+      "theorem_header": "theorem aime_1988_p8\n  (f : ℕ → ℕ → ℝ)\n  (h₀ : ∀ x, 0 < x → f x x = x)\n  (h₁ : ∀ x y, (0 < x ∧ 0 < y) → f x y = f y x)\n  (h₂ : ∀ x y, (0 < x ∧ 0 < y) → (↑x + ↑y) * f x y = y * (f x (x + y))) :\n  f 14 52 = 364 := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "minif2f_test_aime_1989_p8",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1989_p8.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1989_p8",
+      "theorem_header": "theorem aime_1989_p8\n  (a b c d e f g : ℝ)\n  (h₀ : a + 4 * b + 9 * c + 16 * d + 25 * e + 36 * f + 49 * g = 1)\n  (h₁ : 4 * a + 9 * b + 16 * c + 25 * d + 36 * e + 49 * f + 64 * g = 12)\n  (h₂ : 9 * a + 16 * b + 25 * c + 36 * d + 49 * e + 64 * f + 81 * g = 123) :\n  16 * a + 25 * b + 36 * c + 49 * d + 64 * e + 81 * f + 100 * g = 334 := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "minif2f_test_aime_1990_p15",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1990_p15.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1990_p15",
+      "theorem_header": "theorem aime_1990_p15\n  (a b x y : ℝ)\n  (h₀ : a * x + b * y = 3)\n  (h₁ : a * x^2 + b * y^2 = 7)\n  (h₂ : a * x^3 + b * y^3 = 16)\n  (h₃ : a * x^4 + b * y^4 = 42) :\n  a * x^5 + b * y^5 = 20 := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "minif2f_test_aime_1990_p4",
+      "source": "miniF2F-lean4/test",
+      "source_path": "MiniF2F/Test/aime_1990_p4.lean",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": [
+        "Mathlib"
+      ],
+      "lemma": "aime_1990_p4",
+      "theorem_header": "theorem aime_1990_p4\n  (x : ℝ)\n  (h₀ : 0 < x)\n  (h₁ : x^2 - 10 * x - 29 ≠ 0)\n  (h₂ : x^2 - 10 * x - 45 ≠ 0)\n  (h₃ : x^2 - 10 * x - 69 ≠ 0)\n  (h₄ : 1 / (x^2 - 10 * x - 29) + 1 / (x^2 - 10 * x - 45) - 2 / (x^2 - 10 * x - 69) = 0) :\n  x = 13 := by",
+      "informal_goal": "",
+      "candidates": [
+        {
+          "option_id": "rfl",
+          "weight": 0.5,
+          "tactics": [
+            "rfl"
+          ]
+        },
+        {
+          "option_id": "norm_num",
+          "weight": 0.45,
+          "tactics": [
+            "norm_num"
+          ]
+        },
+        {
+          "option_id": "ring_nf",
+          "weight": 0.4,
+          "tactics": [
+            "ring_nf"
+          ]
+        },
+        {
+          "option_id": "omega",
+          "weight": 0.35,
+          "tactics": [
+            "omega"
+          ]
+        },
+        {
+          "option_id": "linarith",
+          "weight": 0.3,
+          "tactics": [
+            "linarith"
+          ]
+        },
+        {
+          "option_id": "nlinarith",
+          "weight": 0.25,
+          "tactics": [
+            "nlinarith"
+          ]
+        }
+      ]
+    }
+  ]
+}

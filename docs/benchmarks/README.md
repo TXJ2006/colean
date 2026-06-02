@@ -11,6 +11,14 @@ Run the current smoke benchmark:
 python colean_v0\benchmark_harness.py
 ```
 
+Generate the current miniF2F sample task file after cloning the benchmark under
+`downloads/miniF2F-lean4`:
+
+```powershell
+python scripts\import_minif2f_subset.py --limit 10
+python colean_v0\benchmark_harness.py --suite miniF2F_sample_v0 --tasks-json docs\benchmarks\miniF2F_sample_v0.json
+```
+
 The harness reports:
 
 - accepted / rejected task count
@@ -41,6 +49,8 @@ Expected JSON shape:
     {
       "task_id": "example_001",
       "source": "benchmark_name",
+      "project_path": "downloads/miniF2F-lean4",
+      "imports": ["Mathlib"],
       "lemma": "human readable lemma name",
       "theorem_header": "theorem ... := by",
       "informal_goal": "optional informal statement",
@@ -66,6 +76,10 @@ autoformalization-style suites:
 - LeanWorkbook-style large-scale Lean theorem proving tasks
 - selected Mathlib local theorem chains for controlled ablations
 
+The first imported external subset is
+[`miniF2F_sample_v0.json`](miniF2F_sample_v0.json), generated from
+`yangky11/miniF2F-lean4` at the recorded source revision.
+
 ## Reporting Rule
 
 Do not claim SOTA from smoke tasks. A result becomes benchmark-grade only when:
@@ -77,4 +91,3 @@ Do not claim SOTA from smoke tasks. A result becomes benchmark-grade only when:
 - top-k pass rates are computed over the full selected split
 - wall-clock and verifier-only timings are reported
 - failures are included, not filtered out
-

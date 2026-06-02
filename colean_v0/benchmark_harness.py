@@ -10,8 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from local_llm_generator import default_tasks
-from paths import MATHLIB_PROJECT, OUT
-from proof_chain_verifier import ProofScriptCandidate, check_candidate
+from paths import MATHLIB_PROJECT, OUT, ROOT
 
 
 @dataclass(frozen=True)
@@ -28,6 +27,8 @@ class BenchmarkTask:
     lemma: str
     theorem_header: str
     informal_goal: str
+    imports: tuple[str, ...]
+    project_path: Path
     candidates: tuple[BenchmarkCandidate, ...]
 
 
@@ -45,6 +46,13 @@ def colean_smoke_tasks() -> list[BenchmarkTask]:
                 lemma=task.lemma,
                 theorem_header=task.theorem_header,
                 informal_goal=task.informal_goal,
+                imports=(
+                    "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+                    "Mathlib.Algebra.Order.BigOperators.Group.Finset",
+                    "Mathlib.Combinatorics.Pigeonhole",
+                    "Mathlib.Tactic",
+                ),
+                project_path=MATHLIB_PROJECT,
                 candidates=candidates,
             )
         )
@@ -59,6 +67,9 @@ def load_json_tasks(path: Path) -> list[BenchmarkTask]:
 
     tasks: list[BenchmarkTask] = []
     for row in rows:
+        project_path = Path(str(row.get("project_path", MATHLIB_PROJECT)))
+        if not project_path.is_absolute():
+            project_path = ROOT / project_path
         candidates = tuple(
             BenchmarkCandidate(
                 option_id=str(candidate.get("option_id", candidate.get("id", index))),
@@ -74,6 +85,8 @@ def load_json_tasks(path: Path) -> list[BenchmarkTask]:
                 lemma=str(row["lemma"]),
                 theorem_header=str(row["theorem_header"]),
                 informal_goal=str(row.get("informal_goal", "")),
+                imports=tuple(str(item) for item in row.get("imports", ["Mathlib"])),
+                project_path=project_path,
                 candidates=candidates,
             )
         )
@@ -93,25 +106,16 @@ def lean_version() -> str:
     return proc.stdout.strip()
 
 
-def mathlib_import_available() -> bool:
+def imports_available(project_path: Path, imports: tuple[str, ...]) -> bool:
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / "ImportMathlib.lean"
         path.write_text(
-            "\n".join(
-                [
-                    "import Mathlib.Algebra.BigOperators.Group.Finset.Basic",
-                    "import Mathlib.Algebra.Order.BigOperators.Group.Finset",
-                    "import Mathlib.Combinatorics.Pigeonhole",
-                    "import Mathlib.Tactic",
-                    "#check Nat",
-                    "",
-                ]
-            ),
+            "\n".join([*(f"import {name}" for name in imports), "#check Nat", ""]),
             encoding="utf-8",
         )
         proc = subprocess.run(
             ["lake", "env", "lean", str(path)],
-            cwd=MATHLIB_PROJECT,
+            cwd=project_path,
             text=True,
             capture_output=True,
             encoding="utf-8",
@@ -121,14 +125,20 @@ def mathlib_import_available() -> bool:
     return proc.returncode == 0
 
 
-def prepare_mathlib_cache() -> dict[str, Any]:
-    if mathlib_import_available():
-        return {"needed": False, "returncode": 0, "stdout": "", "stderr": ""}
+def prepare_project_cache(project_path: Path, imports: tuple[str, ...]) -> dict[str, Any]:
+    if imports_available(project_path, imports):
+        return {
+            "project": str(project_path),
+            "needed": False,
+            "returncode": 0,
+            "stdout": "",
+            "stderr": "",
+        }
 
     started = time.perf_counter()
     proc = subprocess.run(
         ["lake", "exe", "cache", "get"],
-        cwd=MATHLIB_PROJECT,
+        cwd=project_path,
         text=True,
         capture_output=True,
         encoding="utf-8",
@@ -136,12 +146,63 @@ def prepare_mathlib_cache() -> dict[str, Any]:
         timeout=900,
     )
     return {
+        "project": str(project_path),
         "needed": True,
         "returncode": proc.returncode,
         "elapsed_seconds": round(time.perf_counter() - started, 3),
         "stdout": proc.stdout.strip(),
         "stderr": proc.stderr.strip(),
-        "mathlib_available_after": mathlib_import_available(),
+        "imports_available_after": imports_available(project_path, imports),
+    }
+
+
+def candidate_uses_forbidden_placeholder(candidate: BenchmarkCandidate) -> bool:
+    forbidden = ("sorry", "admit")
+    return any(any(word in tactic for word in forbidden) for tactic in candidate.tactics)
+
+
+def check_benchmark_candidate(task: BenchmarkTask, candidate: BenchmarkCandidate) -> dict[str, Any]:
+    if candidate_uses_forbidden_placeholder(candidate):
+        return {
+            "accepted_by_lean": False,
+            "returncode": -1,
+            "stdout": "",
+            "stderr": "candidate contains forbidden placeholder tactic: sorry/admit",
+        }
+
+    source = "\n".join(
+        [
+            *(f"import {name}" for name in task.imports),
+            "",
+            "set_option maxHeartbeats 0",
+            "set_option linter.style.header false",
+            "open scoped BigOperators",
+            "open BigOperators Real Nat Topology Rat",
+            "",
+            task.theorem_header,
+            *[f"  {tactic}" for tactic in candidate.tactics],
+            "",
+        ]
+    )
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "Candidate.lean"
+        path.write_text(source, encoding="utf-8")
+        proc = subprocess.run(
+            ["lake", "env", "lean", str(path)],
+            cwd=task.project_path,
+            text=True,
+            capture_output=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=180,
+        )
+    output = f"{proc.stdout}\n{proc.stderr}"
+    accepted = proc.returncode == 0 and "declaration uses 'sorry'" not in output
+    return {
+        "accepted_by_lean": accepted,
+        "returncode": proc.returncode,
+        "stdout": proc.stdout.strip(),
+        "stderr": proc.stderr.strip(),
     }
 
 
@@ -153,16 +214,9 @@ def verify_task(task: BenchmarkTask) -> dict[str, Any]:
 
     for rank, candidate in enumerate(ranked, start=1):
         candidate_start = time.perf_counter()
-        proof_candidate = ProofScriptCandidate(
-            lemma=task.lemma,
-            theorem_header=task.theorem_header,
-            tactics=candidate.tactics,
-            weight=candidate.weight,
-            source_path=f"{task.source}:{task.task_id}:{candidate.option_id}",
-        )
-        result = check_candidate(proof_candidate)
+        result = check_benchmark_candidate(task, candidate)
         elapsed = round(time.perf_counter() - candidate_start, 4)
-        accepted = bool(result["accepted_by_mathlib_lean"])
+        accepted = bool(result["accepted_by_lean"])
         if accepted and first_accept_rank is None:
             first_accept_rank = rank
         checked.append(
@@ -250,7 +304,13 @@ def main() -> None:
     args = parser.parse_args()
 
     tasks = load_json_tasks(args.tasks_json) if args.tasks_json else colean_smoke_tasks()
-    cache = prepare_mathlib_cache()
+    cache = [
+        prepare_project_cache(project, imports)
+        for project, imports in sorted(
+            {(task.project_path, task.imports) for task in tasks},
+            key=lambda item: str(item[0]),
+        )
+    ]
     results = [verify_task(task) for task in tasks]
     summary = {
         "experiment": "CoLean benchmark harness",

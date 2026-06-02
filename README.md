@@ -112,7 +112,10 @@ The next goal is to turn CoLean into a benchmarkable system:
 
 See [ROADMAP.md](ROADMAP.md).
 
+For current progress, see [STATUS.md](STATUS.md).
+
+For model/toolchain asset policy, see [docs/ASSETS.md](docs/ASSETS.md).
+
 ## License
 
 MIT.
-

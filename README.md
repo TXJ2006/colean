@@ -34,8 +34,10 @@ This repository currently contains:
 
 - `colean_v0/`: Python prototype for correspondence composition, local LLM ranking, Lean verification, incremental failure localization, and feedback learning.
 - `colean_mathlib/`: Lean 4 / Mathlib project with verified finite-sum, bucket, and Kakeya-toy incidence lemmas.
+- `docs/source/`: original correspondence-computing lecture PDF.
 - `docs/reports/`: current experiment reports and JSON outputs.
 - `docs/foundation/`: foundational note in Markdown, DOCX, and PDF form.
+- `docs/benchmarks/`: Lean benchmark track and harness notes.
 
 Highlights:
 
@@ -68,6 +70,12 @@ Run local LLM ranking with Ollama:
 ollama pull qwen2.5-coder:1.5b
 $env:COLEAN_LOCAL_MODEL = "qwen2.5-coder:1.5b"
 python colean_v0\local_llm_generator.py
+```
+
+Run benchmark-style top-k verification metrics:
+
+```powershell
+python colean_v0\benchmark_harness.py
 ```
 
 For a stronger local model:
@@ -122,6 +130,11 @@ For current progress, see [STATUS.md](STATUS.md).
 For the core mathematical foundation, see [docs/foundation/FOUNDATIONS.md](docs/foundation/FOUNDATIONS.md),
 [DOCX](docs/foundation/Correspondence_Computing_Foundations_v0_1.docx), and
 [PDF](docs/foundation/Correspondence_Computing_Foundations_v0_1.pdf).
+
+For the original source PDF, see
+[docs/source/correspondence_computing_lectures_v1_2.pdf](docs/source/correspondence_computing_lectures_v1_2.pdf).
+
+For the Lean benchmark track, see [docs/benchmarks/README.md](docs/benchmarks/README.md).
 
 For model/toolchain asset policy, see [docs/ASSETS.md](docs/ASSETS.md).
 

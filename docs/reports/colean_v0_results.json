@@ -1,0 +1,539 @@
+{
+  "experiment": "CoLean v0 correspondence-guided proof search toy",
+  "claim_tested": "Keep candidate fibers instead of collapsing the proof task into a single prompt.",
+  "pipeline": [
+    "paper lemma -> formal statement",
+    "formal statement -> mathlib declaration",
+    "mathlib declaration -> tactic",
+    "compose by fiber join, reduce by endpoints, update weights from verifier feedback"
+  ],
+  "compose_stats": {
+    "paper_statement_to_declaration": {
+      "left_events": 6,
+      "right_events": 8,
+      "join_pairs": 8,
+      "output_events_before_reduce": 8,
+      "output_events_after_reduce": 8,
+      "max_middle_fiber_product": 3,
+      "materialized_matrix_cells": 144
+    },
+    "paper_to_tactic": {
+      "left_events": 8,
+      "right_events": 8,
+      "join_pairs": 8,
+      "output_events_before_reduce": 8,
+      "output_events_after_reduce": 8,
+      "max_middle_fiber_product": 1,
+      "materialized_matrix_cells": 192
+    }
+  },
+  "top_composed_candidates": [
+    {
+      "paper_lemma": "dyadic mass lemma",
+      "tactic": "simp [Finset.sum_filter]",
+      "score": 0.4766,
+      "path": "correct statement -> filter decomposition -> rewrite filtered sum"
+    },
+    {
+      "paper_lemma": "incidence identity",
+      "tactic": "rw [Finset.sum_biUnion]",
+      "score": 0.4765,
+      "path": "correct statement -> incidence expansion -> expand incidence"
+    },
+    {
+      "paper_lemma": "incidence identity",
+      "tactic": "rw [Finset.sum_sigma']",
+      "score": 0.4654,
+      "path": "correct statement -> swap summation -> swap summation"
+    },
+    {
+      "paper_lemma": "tube density toy",
+      "tactic": "exact Finset.sum_le_sum hcell",
+      "score": 0.295,
+      "path": "usable statement -> monotonicity -> pointwise bound"
+    },
+    {
+      "paper_lemma": "dyadic mass lemma",
+      "tactic": "obtain <x, hx> := ...",
+      "score": 0.2944,
+      "path": "correct statement -> nonzero bucket -> extract level"
+    },
+    {
+      "paper_lemma": "dyadic mass lemma",
+      "tactic": "obtain <k, hk> := Nat.exists_pow_le n",
+      "score": 0.2153,
+      "path": "correct statement -> dyadic scale -> choose dyadic k"
+    },
+    {
+      "paper_lemma": "tube density toy",
+      "tactic": "nlinarith",
+      "score": 0.1991,
+      "path": "usable statement -> scale inequality -> close arithmetic"
+    },
+    {
+      "paper_lemma": "dyadic mass lemma",
+      "tactic": "exact Finset.card_pos.mp h",
+      "score": 0.1092,
+      "path": "related -> cardinality witness -> card witness"
+    }
+  ],
+  "feedback_update_trace": [
+    {
+      "source": "dyadic mass lemma",
+      "target": "simp [Finset.sum_filter]",
+      "old_weight": 0.4766,
+      "feedback": "success",
+      "new_weight": 0.5566,
+      "label": "correct statement -> filter decomposition -> rewrite filtered sum"
+    },
+    {
+      "source": "incidence identity",
+      "target": "rw [Finset.sum_biUnion]",
+      "old_weight": 0.4765,
+      "feedback": "success",
+      "new_weight": 0.5565,
+      "label": "correct statement -> incidence expansion -> expand incidence"
+    },
+    {
+      "source": "incidence identity",
+      "target": "rw [Finset.sum_sigma']",
+      "old_weight": 0.4654,
+      "feedback": "success",
+      "new_weight": 0.5454,
+      "label": "correct statement -> swap summation -> swap summation"
+    },
+    {
+      "source": "tube density toy",
+      "target": "exact Finset.sum_le_sum hcell",
+      "old_weight": 0.295,
+      "feedback": "failure",
+      "new_weight": 0.245,
+      "label": "usable statement -> monotonicity -> pointwise bound"
+    },
+    {
+      "source": "dyadic mass lemma",
+      "target": "obtain <x, hx> := ...",
+      "old_weight": 0.2944,
+      "feedback": "success",
+      "new_weight": 0.3744,
+      "label": "correct statement -> nonzero bucket -> extract level"
+    },
+    {
+      "source": "dyadic mass lemma",
+      "target": "obtain <k, hk> := Nat.exists_pow_le n",
+      "old_weight": 0.2153,
+      "feedback": "success",
+      "new_weight": 0.2953,
+      "label": "correct statement -> dyadic scale -> choose dyadic k"
+    },
+    {
+      "source": "tube density toy",
+      "target": "nlinarith",
+      "old_weight": 0.1991,
+      "feedback": "failure",
+      "new_weight": 0.1491,
+      "label": "usable statement -> scale inequality -> close arithmetic"
+    },
+    {
+      "source": "dyadic mass lemma",
+      "target": "exact Finset.card_pos.mp h",
+      "old_weight": 0.1092,
+      "feedback": "failure",
+      "new_weight": 0.0592,
+      "label": "related -> cardinality witness -> card witness"
+    }
+  ],
+  "stateful_verifier_trace": [
+    {
+      "lemma": "dyadic mass lemma",
+      "old_stage": "start",
+      "tactic": "simp [Finset.sum_filter]",
+      "accepted": true,
+      "new_stage": "filtered_sum",
+      "message": "accepted filter decomposition",
+      "old_weight": 0.4766,
+      "new_weight": 0.5766
+    },
+    {
+      "lemma": "dyadic mass lemma",
+      "old_stage": "filtered_sum",
+      "tactic": "simp [Finset.sum_filter]",
+      "accepted": false,
+      "new_stage": "filtered_sum",
+      "message": "rejected tactic at stage filtered_sum",
+      "old_weight": 0.4766,
+      "new_weight": 0.4166
+    },
+    {
+      "lemma": "dyadic mass lemma",
+      "old_stage": "filtered_sum",
+      "tactic": "obtain <x, hx> := ...",
+      "accepted": true,
+      "new_stage": "done",
+      "message": "accepted bucket witness extraction",
+      "old_weight": 0.2944,
+      "new_weight": 0.3944
+    },
+    {
+      "lemma": "incidence identity",
+      "old_stage": "start",
+      "tactic": "rw [Finset.sum_biUnion]",
+      "accepted": true,
+      "new_stage": "expanded_incidence",
+      "message": "accepted incidence expansion",
+      "old_weight": 0.4765,
+      "new_weight": 0.5765
+    },
+    {
+      "lemma": "incidence identity",
+      "old_stage": "expanded_incidence",
+      "tactic": "rw [Finset.sum_biUnion]",
+      "accepted": false,
+      "new_stage": "expanded_incidence",
+      "message": "rejected tactic at stage expanded_incidence",
+      "old_weight": 0.4765,
+      "new_weight": 0.4165
+    },
+    {
+      "lemma": "incidence identity",
+      "old_stage": "expanded_incidence",
+      "tactic": "rw [Finset.sum_sigma']",
+      "accepted": true,
+      "new_stage": "done",
+      "message": "accepted summation swap",
+      "old_weight": 0.4654,
+      "new_weight": 0.5654
+    },
+    {
+      "lemma": "tube density toy",
+      "old_stage": "start",
+      "tactic": "exact Finset.sum_le_sum hcell",
+      "accepted": true,
+      "new_stage": "pointwise_bound",
+      "message": "accepted pointwise finite-sum bound",
+      "old_weight": 0.295,
+      "new_weight": 0.395
+    },
+    {
+      "lemma": "tube density toy",
+      "old_stage": "pointwise_bound",
+      "tactic": "exact Finset.sum_le_sum hcell",
+      "accepted": false,
+      "new_stage": "pointwise_bound",
+      "message": "rejected tactic at stage pointwise_bound",
+      "old_weight": 0.295,
+      "new_weight": 0.235
+    },
+    {
+      "lemma": "tube density toy",
+      "old_stage": "pointwise_bound",
+      "tactic": "nlinarith",
+      "accepted": true,
+      "new_stage": "done",
+      "message": "accepted arithmetic closure",
+      "old_weight": 0.1991,
+      "new_weight": 0.2991
+    }
+  ],
+  "verifier_summary": {
+    "lemmas_seen": 3,
+    "lemmas_completed": 3,
+    "completed_lemmas": [
+      "dyadic mass lemma",
+      "incidence identity",
+      "tube density toy"
+    ],
+    "total_tactic_attempts": 9,
+    "accepted_attempts": 6,
+    "rejected_attempts": 3,
+    "attempts_by_lemma": {
+      "dyadic mass lemma": 3,
+      "incidence identity": 3,
+      "tube density toy": 3
+    },
+    "accepted_steps_by_lemma": {
+      "dyadic mass lemma": 2,
+      "incidence identity": 2,
+      "tube density toy": 2
+    },
+    "mean_attempts_per_completed_lemma": 3.0
+  },
+  "generated_correspondence_summary": {
+    "statement_events": 6,
+    "declaration_events": 7,
+    "tactic_events": 6,
+    "task_to_declaration_join_pairs": 7,
+    "task_to_tactic_join_pairs": 9,
+    "raw_task_to_tactic_paths": 9,
+    "top_generated_paths": [
+      {
+        "task": "finite sum filter split",
+        "tactic": "exact Finset.sum_filter_add_sum_filter_not s p f",
+        "score": 0.8305,
+        "path": "generated statement: split by predicate -> retrieved declaration -> direct exact"
+      },
+      {
+        "task": "positive mass bucket",
+        "tactic": "exact (Finset.sum_pos_iff).mp h",
+        "score": 0.7369,
+        "path": "generated statement: exists positive bucket -> retrieved declaration -> direct iff elimination"
+      },
+      {
+        "task": "incidence identity toy",
+        "tactic": "rfl",
+        "score": 0.6806,
+        "path": "generated statement: identity -> retrieved declaration -> reflexivity + generated statement: wrong theorem shape -> wrong statement mapping -> wrong tactic"
+      },
+      {
+        "task": "finite sum filter split",
+        "tactic": "rfl",
+        "score": 0.2723,
+        "path": "generated statement: split by predicate -> bad proof candidate -> reflexivity + generated statement: split by predicate -> retrieved declaration -> wrong tactic"
+      },
+      {
+        "task": "positive mass bucket",
+        "tactic": "exact Finset.sum_pos hpos hs",
+        "score": 0.2138,
+        "path": "generated statement: exists positive bucket -> related declaration + generated statement: too strong -> wrong statement mapping -> needs stronger assumptions"
+      },
+      {
+        "task": "positive mass bucket",
+        "tactic": "exact h",
+        "score": 0.1602,
+        "path": "generated statement: exists positive bucket -> retrieved declaration -> wrong type"
+      }
+    ],
+    "top_raw_paths": [
+      {
+        "task": "finite sum filter split",
+        "tactic": "exact Finset.sum_filter_add_sum_filter_not s p f",
+        "score": 0.8305,
+        "path": "generated statement: split by predicate -> retrieved declaration -> direct exact"
+      },
+      {
+        "task": "positive mass bucket",
+        "tactic": "exact (Finset.sum_pos_iff).mp h",
+        "score": 0.7369,
+        "path": "generated statement: exists positive bucket -> retrieved declaration -> direct iff elimination"
+      },
+      {
+        "task": "incidence identity toy",
+        "tactic": "rfl",
+        "score": 0.6734,
+        "path": "generated statement: identity -> retrieved declaration -> reflexivity"
+      },
+      {
+        "task": "positive mass bucket",
+        "tactic": "exact Finset.sum_pos hpos hs",
+        "score": 0.2138,
+        "path": "generated statement: exists positive bucket -> related declaration + generated statement: too strong -> wrong statement mapping -> needs stronger assumptions"
+      },
+      {
+        "task": "finite sum filter split",
+        "tactic": "rfl",
+        "score": 0.1674,
+        "path": "generated statement: split by predicate -> bad proof candidate -> reflexivity"
+      },
+      {
+        "task": "positive mass bucket",
+        "tactic": "exact h",
+        "score": 0.1602,
+        "path": "generated statement: exists positive bucket -> retrieved declaration -> wrong type"
+      },
+      {
+        "task": "finite sum filter split",
+        "tactic": "rfl",
+        "score": 0.1049,
+        "path": "generated statement: split by predicate -> retrieved declaration -> wrong tactic"
+      },
+      {
+        "task": "incidence identity toy",
+        "tactic": "exact Finset.sum_filter_add_sum_filter_not s p f",
+        "score": 0.057,
+        "path": "generated statement: wrong theorem shape -> wrong statement mapping -> direct exact"
+      }
+    ]
+  },
+  "lean_kernel_summary": {
+    "lean_version": "Lean (version 4.30.0, x86_64-w64-windows-gnu, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)",
+    "candidates_checked": 6,
+    "accepted": 3,
+    "rejected": 3
+  },
+  "mathlib_summary": {
+    "candidates_checked": 6,
+    "accepted": 3,
+    "rejected": 3
+  },
+  "proof_chain_summary": {
+    "scripts_checked": 13,
+    "accepted": 4,
+    "rejected": 9,
+    "accepted_scripts": [
+      [
+        "rw [Finset.sum_filter_add_sum_filter_not] at h",
+        "exact (Finset.sum_pos_iff).mp h"
+      ],
+      [
+        "have hside : 0 < (∑ x ∈ s.filter p, f x) ∨ 0 < (∑ x ∈ s.filter (fun x => ¬ p x), f x) := by",
+        "  omega",
+        "rcases hside with hp | hnp",
+        "· left",
+        "  exact (Finset.sum_pos_iff).mp hp",
+        "· right",
+        "  exact (Finset.sum_pos_iff).mp hnp"
+      ],
+      [
+        "rcases (Finset.sum_pos_iff).mp h with ⟨x, hxs, hfx⟩",
+        "refine ⟨level x, hcover x hxs, ?_⟩",
+        "exact (Finset.sum_pos_iff).mpr ⟨x, by simp [hxs], hfx⟩"
+      ],
+      [
+        "exact Finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum hcover hnonempty hbig"
+      ]
+    ]
+  },
+  "incremental_summary": {
+    "scripts_checked": 6,
+    "accepted": 3,
+    "rejected": 3,
+    "first_failure_steps": {
+      "missing rewrite": 1,
+      "forgets bucket sum proof": 2,
+      "missing threshold inequality": 1
+    }
+  },
+  "feedback_learning_summary": {
+    "scripts_checked": 6,
+    "accepted": 3,
+    "rejected": 3,
+    "ranking_before": [
+      [
+        "rewrite hypothesis -> positive mass declaration",
+        0.91
+      ],
+      [
+        "direct weighted pigeonhole declaration",
+        0.9
+      ],
+      [
+        "positive point -> level witness -> positive bucket sum",
+        0.86
+      ],
+      [
+        "missing rewrite",
+        0.46
+      ],
+      [
+        "forgets bucket sum proof",
+        0.33
+      ],
+      [
+        "missing threshold inequality",
+        0.32
+      ]
+    ],
+    "ranking_after": [
+      [
+        "rewrite hypothesis -> positive mass declaration",
+        1.06
+      ],
+      [
+        "direct weighted pigeonhole declaration",
+        1.05
+      ],
+      [
+        "positive point -> level witness -> positive bucket sum",
+        1.01
+      ],
+      [
+        "missing rewrite",
+        0.38
+      ],
+      [
+        "forgets bucket sum proof",
+        0.28
+      ],
+      [
+        "missing threshold inequality",
+        0.24
+      ]
+    ],
+    "edge_update_count": 10
+  },
+  "structured_relation_benchmark": {
+    "n_left": 400,
+    "n_middle": 120,
+    "n_right": 400,
+    "left_events": 800,
+    "right_events": 360,
+    "fiber_join_pairs": 2400,
+    "dense_triple_loop_cells": 19200000,
+    "estimated_avoidance_ratio": 8000.0,
+    "output_events_after_reduce": 2380,
+    "max_middle_fiber_product": 24
+  },
+  "benchmark_sweep": [
+    {
+      "n_left": 100,
+      "n_middle": 30,
+      "n_right": 100,
+      "left_events": 200,
+      "right_events": 90,
+      "fiber_join_pairs": 600,
+      "dense_triple_loop_cells": 300000,
+      "estimated_avoidance_ratio": 500.0,
+      "output_events_after_reduce": 583,
+      "max_middle_fiber_product": 24
+    },
+    {
+      "n_left": 200,
+      "n_middle": 60,
+      "n_right": 200,
+      "left_events": 400,
+      "right_events": 180,
+      "fiber_join_pairs": 1200,
+      "dense_triple_loop_cells": 2400000,
+      "estimated_avoidance_ratio": 2000.0,
+      "output_events_after_reduce": 1189,
+      "max_middle_fiber_product": 24
+    },
+    {
+      "n_left": 400,
+      "n_middle": 120,
+      "n_right": 400,
+      "left_events": 800,
+      "right_events": 360,
+      "fiber_join_pairs": 2400,
+      "dense_triple_loop_cells": 19200000,
+      "estimated_avoidance_ratio": 8000.0,
+      "output_events_after_reduce": 2380,
+      "max_middle_fiber_product": 24
+    },
+    {
+      "n_left": 800,
+      "n_middle": 240,
+      "n_right": 800,
+      "left_events": 1600,
+      "right_events": 720,
+      "fiber_join_pairs": 4800,
+      "dense_triple_loop_cells": 153600000,
+      "estimated_avoidance_ratio": 32000.0,
+      "output_events_after_reduce": 4790,
+      "max_middle_fiber_product": 24
+    },
+    {
+      "n_left": 1200,
+      "n_middle": 360,
+      "n_right": 1200,
+      "left_events": 2400,
+      "right_events": 1080,
+      "fiber_join_pairs": 7200,
+      "dense_triple_loop_cells": 518400000,
+      "estimated_avoidance_ratio": 72000.0,
+      "output_events_after_reduce": 7185,
+      "max_middle_fiber_product": 24
+    }
+  ],
+  "lean_status": "Lean/lake are installed and linked locally. Pure-Lean and Mathlib-backed verifiers are passing."
+}

@@ -1,0 +1,63 @@
+{
+  "experiment": "real Lean kernel candidate verification",
+  "lean_version": "Lean (version 4.30.0, x86_64-w64-windows-gnu, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)",
+  "candidates_checked": 6,
+  "accepted": 3,
+  "rejected": 3,
+  "results": [
+    {
+      "lemma": "dyadic mass toy",
+      "tactic": "exact Nat.add_comm a b",
+      "old_weight": 0.91,
+      "accepted_by_lean_kernel": true,
+      "new_weight": 1.01,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "lemma": "dyadic mass toy",
+      "tactic": "exact Nat.add_assoc a b 0",
+      "old_weight": 0.31,
+      "accepted_by_lean_kernel": false,
+      "new_weight": 0.25,
+      "returncode": 1,
+      "stderr": ""
+    },
+    {
+      "lemma": "incidence identity toy",
+      "tactic": "exact Nat.add_assoc a b c",
+      "old_weight": 0.88,
+      "accepted_by_lean_kernel": true,
+      "new_weight": 0.98,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "lemma": "incidence identity toy",
+      "tactic": "exact Nat.add_comm a b",
+      "old_weight": 0.29,
+      "accepted_by_lean_kernel": false,
+      "new_weight": 0.23,
+      "returncode": 1,
+      "stderr": ""
+    },
+    {
+      "lemma": "tube density toy",
+      "tactic": "exact h",
+      "old_weight": 0.86,
+      "accepted_by_lean_kernel": true,
+      "new_weight": 0.96,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "lemma": "tube density toy",
+      "tactic": "exact Nat.le_refl a",
+      "old_weight": 0.27,
+      "accepted_by_lean_kernel": false,
+      "new_weight": 0.21,
+      "returncode": 1,
+      "stderr": ""
+    }
+  ]
+}

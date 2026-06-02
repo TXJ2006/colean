@@ -1,0 +1,110 @@
+{
+  "experiment": "incremental verifier feedback learning round",
+  "scripts_checked": 6,
+  "accepted": 3,
+  "rejected": 3,
+  "ranking_before": [
+    [
+      "rewrite hypothesis -> positive mass declaration",
+      0.91
+    ],
+    [
+      "direct weighted pigeonhole declaration",
+      0.9
+    ],
+    [
+      "positive point -> level witness -> positive bucket sum",
+      0.86
+    ],
+    [
+      "missing rewrite",
+      0.46
+    ],
+    [
+      "forgets bucket sum proof",
+      0.33
+    ],
+    [
+      "missing threshold inequality",
+      0.32
+    ]
+  ],
+  "ranking_after": [
+    [
+      "rewrite hypothesis -> positive mass declaration",
+      1.06
+    ],
+    [
+      "direct weighted pigeonhole declaration",
+      1.05
+    ],
+    [
+      "positive point -> level witness -> positive bucket sum",
+      1.01
+    ],
+    [
+      "missing rewrite",
+      0.38
+    ],
+    [
+      "forgets bucket sum proof",
+      0.28
+    ],
+    [
+      "missing threshold inequality",
+      0.24
+    ]
+  ],
+  "edge_updates": [
+    {
+      "edge": "split positive mass bucket::step1::rw [Finset.sum_filter_add_sum_filter_not] at h",
+      "reason": "accepted proof path",
+      "delta": 0.12
+    },
+    {
+      "edge": "split positive mass bucket::step2::exact (Finset.sum_pos_iff).mp h",
+      "reason": "accepted proof path",
+      "delta": 0.12
+    },
+    {
+      "edge": "split positive mass bucket::step1::exact (Finset.sum_pos_iff).mp h",
+      "reason": "first failing proof step",
+      "delta": -0.1
+    },
+    {
+      "edge": "finite level positive bucket::step1::rcases (Finset.sum_pos_iff).mp h with ⟨x, hxs, hfx⟩",
+      "reason": "accepted proof path",
+      "delta": 0.12
+    },
+    {
+      "edge": "finite level positive bucket::step2::refine ⟨level x, hcover x hxs, ?_⟩",
+      "reason": "accepted proof path",
+      "delta": 0.12
+    },
+    {
+      "edge": "finite level positive bucket::step3::exact (Finset.sum_pos_iff).mpr ⟨x, by simp [hxs], hfx⟩",
+      "reason": "accepted proof path",
+      "delta": 0.12
+    },
+    {
+      "edge": "finite level positive bucket::step1::rcases (Finset.sum_pos_iff).mp h with ⟨x, hxs, hfx⟩",
+      "reason": "valid prefix before later failure",
+      "delta": 0.03
+    },
+    {
+      "edge": "finite level positive bucket::step2::exact ⟨level x, hcover x hxs, hfx⟩",
+      "reason": "first failing proof step",
+      "delta": -0.1
+    },
+    {
+      "edge": "finite level threshold bucket::step1::exact Finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum hcover hnonempty hbig",
+      "reason": "accepted proof path",
+      "delta": 0.12
+    },
+    {
+      "edge": "finite level threshold bucket::step1::exact Finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum hcover hnonempty",
+      "reason": "first failing proof step",
+      "delta": -0.1
+    }
+  ]
+}

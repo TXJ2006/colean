@@ -1,0 +1,198 @@
+{
+  "experiment": "Mathlib-backed multi-step proof-chain verification",
+  "project": "C:\\Users\\Administrator\\Documents\\Codex\\2026-06-01\\files-mentioned-by-the-user-correspondence\\work\\colean_mathlib",
+  "lean_version": "Lean (version 4.30.0, x86_64-w64-windows-gnu, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)",
+  "scripts_checked": 13,
+  "accepted": 4,
+  "rejected": 9,
+  "results": [
+    {
+      "lemma": "split positive mass bucket",
+      "tactics": [
+        "rw [Finset.sum_filter_add_sum_filter_not] at h",
+        "exact (Finset.sum_pos_iff).mp h"
+      ],
+      "source_path": "filter split declaration -> rewrite hypothesis -> positive mass declaration",
+      "old_weight": 0.91,
+      "accepted_by_mathlib_lean": true,
+      "new_weight": 1.03,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "lemma": "split positive mass bucket",
+      "tactics": [
+        "exact (Finset.sum_pos_iff).mp h"
+      ],
+      "source_path": "positive mass declaration without rewrite",
+      "old_weight": 0.46,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.39,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpsokkgdp_\\Candidate.lean:14:32: error: Application type mismatch: The argument\n  h\nhas type\n  0 < ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x\nbut is expected to have type\n  0 < ∑ x ∈ s, f x\nin the application\n  Finset.sum_pos_iff.mp h",
+      "stderr": ""
+    },
+    {
+      "lemma": "split positive mass bucket",
+      "tactics": [
+        "exact (Finset.sum_pos_iff).mp h",
+        "rw [Finset.sum_filter_add_sum_filter_not] at h"
+      ],
+      "source_path": "wrong tactic order",
+      "old_weight": 0.31,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.24,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpp_0r0qve\\Candidate.lean:14:32: error: Application type mismatch: The argument\n  h\nhas type\n  0 < ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x\nbut is expected to have type\n  0 < ∑ x ∈ s, f x\nin the application\n  Finset.sum_pos_iff.mp h\nC:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpp_0r0qve\\Candidate.lean:15:6: error: No goals to be solved",
+      "stderr": ""
+    },
+    {
+      "lemma": "split positive mass bucket",
+      "tactics": [
+        "rfl"
+      ],
+      "source_path": "definitionally-equal guess",
+      "old_weight": 0.12,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.05,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpk3ku_so0\\Candidate.lean:14:2: error: Tactic `rfl` failed: The left-hand side\n  α\nis not definitionally equal to the right-hand side\n  fun x => x ∈ s ∧ 0 < f x\n\nα : Type\ns : Finset α\np : α → Prop\ninst✝ : DecidablePred p\nf : α → ℕ\nh : 0 < ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x\n⊢ ∃ x ∈ s, 0 < f x",
+      "stderr": ""
+    },
+    {
+      "lemma": "binary level positive bucket",
+      "tactics": [
+        "have hside : 0 < (∑ x ∈ s.filter p, f x) ∨ 0 < (∑ x ∈ s.filter (fun x => ¬ p x), f x) := by",
+        "  omega",
+        "rcases hside with hp | hnp",
+        "· left",
+        "  exact (Finset.sum_pos_iff).mp hp",
+        "· right",
+        "  exact (Finset.sum_pos_iff).mp hnp"
+      ],
+      "source_path": "positive add split -> branch on positive side -> sum_pos_iff",
+      "old_weight": 0.88,
+      "accepted_by_mathlib_lean": true,
+      "new_weight": 1.0,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "lemma": "binary level positive bucket",
+      "tactics": [
+        "left",
+        "exact (Finset.sum_pos_iff).mp h"
+      ],
+      "source_path": "incorrectly assumes left side positive",
+      "old_weight": 0.34,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.27,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmp3itngh1l\\Candidate.lean:15:32: error: Application type mismatch: The argument\n  h\nhas type\n  0 < ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x\nbut is expected to have type\n  0 < ∑ x ∈ s with p x, f x\nin the application\n  Finset.sum_pos_iff.mp h",
+      "stderr": ""
+    },
+    {
+      "lemma": "binary level positive bucket",
+      "tactics": [
+        "have hside : 0 < (∑ x ∈ s.filter p, f x) ∨ 0 < (∑ x ∈ s.filter (fun x => ¬ p x), f x) := by",
+        "  omega",
+        "exact hside"
+      ],
+      "source_path": "forgets to convert positive side sum to witness",
+      "old_weight": 0.28,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.21,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpmay6l_rz\\Candidate.lean:16:2: error: Type mismatch\n  hside\nhas type\n  0 < ∑ x ∈ s with p x, f x ∨ 0 < ∑ x ∈ s with ¬p x, f x\nbut is expected to have type\n  (∃ x ∈ Finset.filter p s, 0 < f x) ∨ ∃ x ∈ {x ∈ s | ¬p x}, 0 < f x",
+      "stderr": ""
+    },
+    {
+      "lemma": "finite level positive bucket",
+      "tactics": [
+        "rcases (Finset.sum_pos_iff).mp h with ⟨x, hxs, hfx⟩",
+        "refine ⟨level x, hcover x hxs, ?_⟩",
+        "exact (Finset.sum_pos_iff).mpr ⟨x, by simp [hxs], hfx⟩"
+      ],
+      "source_path": "positive point -> level bucket -> positive bucket sum",
+      "old_weight": 0.86,
+      "accepted_by_mathlib_lean": true,
+      "new_weight": 0.98,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "lemma": "finite level positive bucket",
+      "tactics": [
+        "rcases (Finset.sum_pos_iff).mp h with ⟨x, hxs, hfx⟩",
+        "exact ⟨level x, hcover x hxs, hfx⟩"
+      ],
+      "source_path": "forgets to prove bucket sum positive",
+      "old_weight": 0.33,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.26,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmp923sem3x\\Candidate.lean:16:32: error: Application type mismatch: The argument\n  hfx\nhas type\n  0 < f x\nbut is expected to have type\n  0 < ∑ x ∈ s with level x = level x, f x\nin the application\n  ⟨hcover x hxs, hfx⟩",
+      "stderr": ""
+    },
+    {
+      "lemma": "finite level positive bucket",
+      "tactics": [
+        "rcases (Finset.sum_pos_iff).mp h with ⟨x, hxs, hfx⟩",
+        "refine ⟨level x, ?_, ?_⟩",
+        "exact hxs",
+        "exact (Finset.sum_pos_iff).mpr ⟨x, by simp [hxs], hfx⟩"
+      ],
+      "source_path": "uses source membership instead of level cover",
+      "old_weight": 0.25,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.18,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpk6s1vvln\\Candidate.lean:17:2: error: Type mismatch\n  hxs\nhas type\n  x ∈ s\nbut is expected to have type\n  level x ∈ levels",
+      "stderr": ""
+    },
+    {
+      "lemma": "finite level threshold bucket",
+      "tactics": [
+        "exact Finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum hcover hnonempty hbig"
+      ],
+      "source_path": "Mathlib weighted pigeonhole declaration",
+      "old_weight": 0.9,
+      "accepted_by_mathlib_lean": true,
+      "new_weight": 1.02,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "lemma": "finite level threshold bucket",
+      "tactics": [
+        "exact Finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum hcover hnonempty"
+      ],
+      "source_path": "forgets threshold inequality argument",
+      "old_weight": 0.32,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.25,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpnfyvpa0a\\Candidate.lean:17:8: error: typeclass instance problem is stuck\n  IsOrderedCancelAddMonoid ?m.40\n\nNote: Lean will not try to resolve this typeclass instance problem because the first, second, and third type arguments to `IsOrderedCancelAddMonoid` contain metavariables. These arguments must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "stderr": ""
+    },
+    {
+      "lemma": "finite level threshold bucket",
+      "tactics": [
+        "rcases (Finset.sum_pos_iff).mp (Nat.lt_of_lt_of_le (Nat.succ_pos 0) hbig) with ⟨x, hxs, hfx⟩",
+        "refine ⟨level x, hcover x hxs, ?_⟩",
+        "exact Nat.le_of_lt hfx"
+      ],
+      "source_path": "wrongly tries positive-mass proof for threshold bound",
+      "old_weight": 0.2,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.13,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpu69wqw98\\Candidate.lean:17:70: error: Application type mismatch: The argument\n  hbig\nhas type\n  levels.card • threshold ≤ ∑ x ∈ s, f x\nbut is expected to have type\n  Nat.succ 0 ≤ ∑ x ∈ ?m.44, ?m.43 x\nin the application\n  Nat.lt_of_lt_of_le (Nat.succ_pos 0) hbig\nC:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpu69wqw98\\Candidate.lean:19:21: error: Application type mismatch: The argument\n  hfx\nhas type\n  0 < ?m.43 x\nbut is expected to have type\n  threshold < ∑ x ∈ s with level x = level x, f x\nin the application\n  Nat.le_of_lt hfx",
+      "stderr": ""
+    }
+  ]
+}

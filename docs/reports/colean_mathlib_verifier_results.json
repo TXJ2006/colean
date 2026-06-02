@@ -1,0 +1,87 @@
+{
+  "experiment": "Mathlib-backed Lean candidate verification",
+  "project": "C:\\Users\\Administrator\\Documents\\Codex\\2026-06-01\\files-mentioned-by-the-user-correspondence\\work\\colean_mathlib",
+  "lean_version": "Lean (version 4.30.0, x86_64-w64-windows-gnu, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)",
+  "candidates_checked": 6,
+  "accepted": 3,
+  "rejected": 3,
+  "top1_by_lemma": {
+    "finite sum filter split": {
+      "tactic": "exact Finset.sum_filter_add_sum_filter_not s p f",
+      "accepted": true,
+      "weight": 0.93
+    },
+    "positive mass bucket": {
+      "tactic": "exact (Finset.sum_pos_iff).mp h",
+      "accepted": true,
+      "weight": 0.9
+    },
+    "incidence identity toy": {
+      "tactic": "rfl",
+      "accepted": true,
+      "weight": 0.88
+    }
+  },
+  "results": [
+    {
+      "lemma": "finite sum filter split",
+      "tactic": "exact Finset.sum_filter_add_sum_filter_not s p f",
+      "old_weight": 0.93,
+      "accepted_by_mathlib_lean": true,
+      "new_weight": 1.03,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "lemma": "finite sum filter split",
+      "tactic": "rfl",
+      "old_weight": 0.25,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.19,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpp9b5_k1c\\Candidate.lean:11:2: error: Tactic `rfl` failed: The left-hand side\n  ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x\nis not definitionally equal to the right-hand side\n  ∑ x ∈ s, f x\n\nα : Type\ns : Finset α\np : α → Prop\ninst✝ : DecidablePred p\nf : α → ℕ\n⊢ ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x = ∑ x ∈ s, f x",
+      "stderr": ""
+    },
+    {
+      "lemma": "positive mass bucket",
+      "tactic": "exact (Finset.sum_pos_iff).mp h",
+      "old_weight": 0.9,
+      "accepted_by_mathlib_lean": true,
+      "new_weight": 1.0,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "lemma": "positive mass bucket",
+      "tactic": "exact h",
+      "old_weight": 0.22,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.16,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpl4a7k5i5\\Candidate.lean:10:2: error: Type mismatch\n  h\nhas type\n  0 < ∑ x ∈ s, f x\nbut is expected to have type\n  ∃ x ∈ s, 0 < f x",
+      "stderr": ""
+    },
+    {
+      "lemma": "incidence identity toy",
+      "tactic": "rfl",
+      "old_weight": 0.88,
+      "accepted_by_mathlib_lean": true,
+      "new_weight": 0.98,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "lemma": "incidence identity toy",
+      "tactic": "exact Finset.sum_filter_add_sum_filter_not tubes (fun _ => True) (fun t => (pointsIn t).card)",
+      "old_weight": 0.24,
+      "accepted_by_mathlib_lean": false,
+      "new_weight": 0.18,
+      "returncode": 1,
+      "stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpy69snizi\\Candidate.lean:11:2: error: Type mismatch\n  Finset.sum_filter_add_sum_filter_not tubes (fun x => True) fun t => (pointsIn t).card\nhas type\n  ∑ x ∈ tubes with True, (pointsIn x).card + ∑ x ∈ tubes with ¬True, (pointsIn x).card = ∑ x ∈ tubes, (pointsIn x).card\nbut is expected to have type\n  ∑ t ∈ tubes, (pointsIn t).card = ∑ t ∈ tubes, (pointsIn t).card",
+      "stderr": ""
+    }
+  ]
+}

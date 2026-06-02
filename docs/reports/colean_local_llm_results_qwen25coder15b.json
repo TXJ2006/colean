@@ -1,0 +1,322 @@
+{
+  "experiment": "Local Ollama LLM proof-candidate generation",
+  "host": "http://127.0.0.1:11434",
+  "model": "qwen2.5-coder:1.5b",
+  "server_started_by_script": false,
+  "error": "",
+  "candidates_checked": 4,
+  "accepted": 0,
+  "rejected": 4,
+  "results": [
+    {
+      "lemma": "split positive mass bucket",
+      "model": "qwen2.5-coder:1.5b",
+      "elapsed_seconds": 7.341,
+      "raw_response": "```json\n{\n  \"tactics\": [\"rewrite\", \"apply sum_pos_iff\"]\n}\n```",
+      "parse_error": "",
+      "tactics": [
+        "rewrite",
+        "apply sum_pos_iff"
+      ],
+      "accepted_by_mathlib_lean": false,
+      "lean_stderr": "",
+      "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpx8tbzhem\\Candidate.lean:14:9: error: unexpected identifier; expected '['\nC:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpx8tbzhem\\Candidate.lean:13:24: error: unsolved goals\nα : Type\ns : Finset α\np : α → Prop\ninst✝ : DecidablePred p\nf : α → ℕ\nh : 0 < ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x\n⊢ ∃ x ∈ s, 0 < f x"
+    },
+    {
+      "lemma": "binary level positive bucket",
+      "model": "qwen2.5-coder:1.5b",
+      "elapsed_seconds": 6.28,
+      "raw_response": "```json\n{\n  \"tactics\": [\"omega\", \"rcases hside with hp | hnp\", \"Finset.sum_pos_iff\"]\n}\n```",
+      "parse_error": "",
+      "tactics": [
+        "omega",
+        "rcases hside with hp | hnp",
+        "Finset.sum_pos_iff"
+      ],
+      "accepted_by_mathlib_lean": false,
+      "lean_stderr": "",
+      "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmp38akrqwu\\Candidate.lean:16:3: error: unknown tactic"
+    },
+    {
+      "lemma": "finite level positive bucket",
+      "model": "qwen2.5-coder:1.5b",
+      "elapsed_seconds": 6.019,
+      "raw_response": "```json\n{\n  \"tactics\": [\"finset.sum_pos_iff\", \"level x\", \"hcover x hxs\", \"Finset.sum_pos_iff.mpr\"]\n}\n```",
+      "parse_error": "",
+      "tactics": [
+        "finset.sum_pos_iff",
+        "level x",
+        "hcover x hxs",
+        "Finset.sum_pos_iff.mpr"
+      ],
+      "accepted_by_mathlib_lean": false,
+      "lean_stderr": "",
+      "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmppcpkm7ed\\Candidate.lean:15:3: error: unknown tactic\nC:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmppcpkm7ed\\Candidate.lean:14:68: error: unsolved goals\nα β : Type\ninst✝ : DecidableEq β\ns : Finset α\nlevels : Finset β\nlevel : α → β\nf : α → ℕ\nhcover : ∀ x ∈ s, level x ∈ levels\nh : 0 < ∑ x ∈ s, f x\n⊢ ∃ b ∈ levels, 0 < ∑ x ∈ s with level x = b, f x"
+    },
+    {
+      "lemma": "finite level threshold bucket",
+      "model": "qwen2.5-coder:1.5b",
+      "elapsed_seconds": 5.436,
+      "raw_response": "```json\n{\n  \"tactics\": [\"finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum\", \"filter_exists\"]\n}\n```",
+      "parse_error": "",
+      "tactics": [
+        "finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum",
+        "filter_exists"
+      ],
+      "accepted_by_mathlib_lean": false,
+      "lean_stderr": "",
+      "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmp4b_vsmdw\\Candidate.lean:17:3: error: unknown tactic\nC:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmp4b_vsmdw\\Candidate.lean:16:76: error: unsolved goals\nα β : Type\ninst✝ : DecidableEq β\ns : Finset α\nlevels : Finset β\nlevel : α → β\nf : α → ℕ\nthreshold : ℕ\nhcover : ∀ x ∈ s, level x ∈ levels\nhnonempty : levels.Nonempty\nhbig : levels.card • threshold ≤ ∑ x ∈ s, f x\n⊢ ∃ b ∈ levels, threshold ≤ ∑ x ∈ s with level x = b, f x"
+    }
+  ],
+  "constrained_experiment": {
+    "mode": "local LLM ranks CoLean candidate proof chains; Lean verifies ranked options",
+    "candidates_checked": 4,
+    "accepted": 4,
+    "rejected": 0,
+    "topk_summary": {
+      "top_1": {
+        "hits": 4,
+        "total": 4,
+        "rate": 1.0
+      },
+      "top_2": {
+        "hits": 4,
+        "total": 4,
+        "rate": 1.0
+      },
+      "top_3": {
+        "hits": 4,
+        "total": 4,
+        "rate": 1.0
+      }
+    },
+    "results": [
+      {
+        "lemma": "split positive mass bucket",
+        "model": "qwen2.5-coder:1.5b",
+        "elapsed_seconds": 7.144,
+        "raw_response": "```json\n{\n  \"ranked_option_ids\": [\"A\", \"B\", \"C\"]\n}\n```",
+        "parse_error": "",
+        "model_ranked_option_ids": [
+          "A",
+          "B",
+          "C"
+        ],
+        "missing_option_ids_appended_by_colean": [],
+        "ranked_option_ids": [
+          "A",
+          "B",
+          "C"
+        ],
+        "accepted_by_mathlib_lean": true,
+        "first_accepted_rank": 1,
+        "checked_options": [
+          {
+            "rank": 1,
+            "option_id": "A",
+            "tactics": [
+              "rw [Finset.sum_filter_add_sum_filter_not] at h",
+              "exact (Finset.sum_pos_iff).mp h"
+            ],
+            "accepted_by_mathlib_lean": true,
+            "lean_stderr": "",
+            "lean_stdout": ""
+          },
+          {
+            "rank": 2,
+            "option_id": "B",
+            "tactics": [
+              "exact (Finset.sum_pos_iff).mp h"
+            ],
+            "accepted_by_mathlib_lean": false,
+            "lean_stderr": "",
+            "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpk1cgadjs\\Candidate.lean:14:32: error: Application type mismatch: The argument\n  h\nhas type\n  0 < ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x\nbut is expected to have type\n  0 < ∑ x ∈ s, f x\nin the application\n  Finset.sum_pos_iff.mp h"
+          },
+          {
+            "rank": 3,
+            "option_id": "C",
+            "tactics": [
+              "exact (Finset.sum_pos_iff).mp h",
+              "rw [Finset.sum_filter_add_sum_filter_not] at h"
+            ],
+            "accepted_by_mathlib_lean": false,
+            "lean_stderr": "",
+            "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpilwgqr5f\\Candidate.lean:14:32: error: Application type mismatch: The argument\n  h\nhas type\n  0 < ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x\nbut is expected to have type\n  0 < ∑ x ∈ s, f x\nin the application\n  Finset.sum_pos_iff.mp h\nC:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpilwgqr5f\\Candidate.lean:15:6: error: No goals to be solved"
+          }
+        ]
+      },
+      {
+        "lemma": "binary level positive bucket",
+        "model": "qwen2.5-coder:1.5b",
+        "elapsed_seconds": 8.881,
+        "raw_response": "```json\n{\n  \"ranked_option_ids\": [\"A\", \"B\", \"C\"]\n}\n```",
+        "parse_error": "",
+        "model_ranked_option_ids": [
+          "A",
+          "B",
+          "C"
+        ],
+        "missing_option_ids_appended_by_colean": [],
+        "ranked_option_ids": [
+          "A",
+          "B",
+          "C"
+        ],
+        "accepted_by_mathlib_lean": true,
+        "first_accepted_rank": 1,
+        "checked_options": [
+          {
+            "rank": 1,
+            "option_id": "A",
+            "tactics": [
+              "have hside : 0 < (∑ x ∈ s.filter p, f x) ∨ 0 < (∑ x ∈ s.filter (fun x => ¬ p x), f x) := by",
+              "  omega",
+              "rcases hside with hp | hnp",
+              "· left",
+              "  exact (Finset.sum_pos_iff).mp hp",
+              "· right",
+              "  exact (Finset.sum_pos_iff).mp hnp"
+            ],
+            "accepted_by_mathlib_lean": true,
+            "lean_stderr": "",
+            "lean_stdout": ""
+          },
+          {
+            "rank": 2,
+            "option_id": "B",
+            "tactics": [
+              "left",
+              "exact (Finset.sum_pos_iff).mp h"
+            ],
+            "accepted_by_mathlib_lean": false,
+            "lean_stderr": "",
+            "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmp5v74rt_8\\Candidate.lean:15:32: error: Application type mismatch: The argument\n  h\nhas type\n  0 < ∑ x ∈ s with p x, f x + ∑ x ∈ s with ¬p x, f x\nbut is expected to have type\n  0 < ∑ x ∈ s with p x, f x\nin the application\n  Finset.sum_pos_iff.mp h"
+          },
+          {
+            "rank": 3,
+            "option_id": "C",
+            "tactics": [
+              "have hside : 0 < (∑ x ∈ s.filter p, f x) ∨ 0 < (∑ x ∈ s.filter (fun x => ¬ p x), f x) := by",
+              "  omega",
+              "exact hside"
+            ],
+            "accepted_by_mathlib_lean": false,
+            "lean_stderr": "",
+            "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmp9p3i6sa4\\Candidate.lean:16:2: error: Type mismatch\n  hside\nhas type\n  0 < ∑ x ∈ s with p x, f x ∨ 0 < ∑ x ∈ s with ¬p x, f x\nbut is expected to have type\n  (∃ x ∈ Finset.filter p s, 0 < f x) ∨ ∃ x ∈ {x ∈ s | ¬p x}, 0 < f x"
+          }
+        ]
+      },
+      {
+        "lemma": "finite level positive bucket",
+        "model": "qwen2.5-coder:1.5b",
+        "elapsed_seconds": 9.167,
+        "raw_response": "```json\n{\n  \"ranked_option_ids\": [\"A\", \"B\", \"C\"]\n}\n```",
+        "parse_error": "",
+        "model_ranked_option_ids": [
+          "A",
+          "B",
+          "C"
+        ],
+        "missing_option_ids_appended_by_colean": [],
+        "ranked_option_ids": [
+          "A",
+          "B",
+          "C"
+        ],
+        "accepted_by_mathlib_lean": true,
+        "first_accepted_rank": 1,
+        "checked_options": [
+          {
+            "rank": 1,
+            "option_id": "A",
+            "tactics": [
+              "rcases (Finset.sum_pos_iff).mp h with ⟨x, hxs, hfx⟩",
+              "refine ⟨level x, hcover x hxs, ?_⟩",
+              "exact (Finset.sum_pos_iff).mpr ⟨x, by simp [hxs], hfx⟩"
+            ],
+            "accepted_by_mathlib_lean": true,
+            "lean_stderr": "",
+            "lean_stdout": ""
+          },
+          {
+            "rank": 2,
+            "option_id": "B",
+            "tactics": [
+              "rcases (Finset.sum_pos_iff).mp h with ⟨x, hxs, hfx⟩",
+              "exact ⟨level x, hcover x hxs, hfx⟩"
+            ],
+            "accepted_by_mathlib_lean": false,
+            "lean_stderr": "",
+            "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpse1mbeg7\\Candidate.lean:16:32: error: Application type mismatch: The argument\n  hfx\nhas type\n  0 < f x\nbut is expected to have type\n  0 < ∑ x ∈ s with level x = level x, f x\nin the application\n  ⟨hcover x hxs, hfx⟩"
+          },
+          {
+            "rank": 3,
+            "option_id": "C",
+            "tactics": [
+              "rcases (Finset.sum_pos_iff).mp h with ⟨x, hxs, hfx⟩",
+              "refine ⟨level x, ?_, ?_⟩",
+              "exact hxs",
+              "exact (Finset.sum_pos_iff).mpr ⟨x, by simp [hxs], hfx⟩"
+            ],
+            "accepted_by_mathlib_lean": false,
+            "lean_stderr": "",
+            "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmpmz_xnh00\\Candidate.lean:17:2: error: Type mismatch\n  hxs\nhas type\n  x ∈ s\nbut is expected to have type\n  level x ∈ levels"
+          }
+        ]
+      },
+      {
+        "lemma": "finite level threshold bucket",
+        "model": "qwen2.5-coder:1.5b",
+        "elapsed_seconds": 8.652,
+        "raw_response": "```json\n{\n  \"ranked_option_ids\": [\"A\", \"B\", \"C\"]\n}\n```",
+        "parse_error": "",
+        "model_ranked_option_ids": [
+          "A",
+          "B",
+          "C"
+        ],
+        "missing_option_ids_appended_by_colean": [],
+        "ranked_option_ids": [
+          "A",
+          "B",
+          "C"
+        ],
+        "accepted_by_mathlib_lean": true,
+        "first_accepted_rank": 1,
+        "checked_options": [
+          {
+            "rank": 1,
+            "option_id": "A",
+            "tactics": [
+              "exact Finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum hcover hnonempty hbig"
+            ],
+            "accepted_by_mathlib_lean": true,
+            "lean_stderr": "",
+            "lean_stdout": ""
+          },
+          {
+            "rank": 2,
+            "option_id": "B",
+            "tactics": [
+              "exact Finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum hcover hnonempty"
+            ],
+            "accepted_by_mathlib_lean": false,
+            "lean_stderr": "",
+            "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmp9ujqh8m_\\Candidate.lean:17:8: error: typeclass instance problem is stuck\n  IsOrderedCancelAddMonoid ?m.40\n\nNote: Lean will not try to resolve this typeclass instance problem because the first, second, and third type arguments to `IsOrderedCancelAddMonoid` contain metavariables. These arguments must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck."
+          },
+          {
+            "rank": 3,
+            "option_id": "C",
+            "tactics": [
+              "apply Finset.exists_le_sum_fiber_of_maps_to_of_nsmul_le_sum",
+              "case h => exact hcover"
+            ],
+            "accepted_by_mathlib_lean": false,
+            "lean_stderr": "",
+            "lean_stdout": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\tmp51rwxmvd\\Candidate.lean:18:2: error: Case tag `h` not found.\n\nHint: Available tags:\n  • `hf`: hf̲\n  • `ht`: ht̲\n  • `hb`: hb̲"
+          }
+        ]
+      }
+    ]
+  }
+}

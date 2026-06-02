@@ -1,0 +1,207 @@
+{
+  "experiment": "CoLean failure recovery event analysis",
+  "claim": "LLM failures become structured correspondence events instead of discarded attempts.",
+  "models": [
+    {
+      "model": "qwen2.5-coder:1.5b",
+      "free_generation": {
+        "checked": 4,
+        "accepted": 0,
+        "rejected": 4
+      },
+      "constrained_ranking": {
+        "checked": 4,
+        "accepted": 4,
+        "rejected": 0,
+        "topk_summary": {
+          "top_1": {
+            "hits": 4,
+            "total": 4,
+            "rate": 1.0
+          },
+          "top_2": {
+            "hits": 4,
+            "total": 4,
+            "rate": 1.0
+          },
+          "top_3": {
+            "hits": 4,
+            "total": 4,
+            "rate": 1.0
+          }
+        }
+      },
+      "failure_class_counts": {
+        "missing_intermediate_state": 1,
+        "near_mathlib_declaration": 4,
+        "witness_shape_incomplete": 1
+      },
+      "missing_options_appended_by_colean": {},
+      "failure_to_repair_edges": [
+        {
+          "source": "split positive mass bucket::free_generation_failure",
+          "target": "map informal tactic phrase to exact Mathlib declaration candidate",
+          "weight": 0.82,
+          "label": "near_mathlib_declaration"
+        },
+        {
+          "source": "binary level positive bucket::free_generation_failure",
+          "target": "map informal tactic phrase to exact Mathlib declaration candidate",
+          "weight": 0.82,
+          "label": "near_mathlib_declaration"
+        },
+        {
+          "source": "finite level positive bucket::free_generation_failure",
+          "target": "map informal tactic phrase to exact Mathlib declaration candidate",
+          "weight": 0.82,
+          "label": "near_mathlib_declaration"
+        },
+        {
+          "source": "finite level threshold bucket::free_generation_failure",
+          "target": "map informal tactic phrase to exact Mathlib declaration candidate",
+          "weight": 0.82,
+          "label": "near_mathlib_declaration"
+        },
+        {
+          "source": "binary level positive bucket::free_generation_failure",
+          "target": "insert intermediate proof-state event before branch/destruct",
+          "weight": 0.78,
+          "label": "missing_intermediate_state"
+        },
+        {
+          "source": "finite level threshold bucket::free_generation_failure",
+          "target": "rank proof-chain candidates that explicitly build the witness tuple",
+          "weight": 0.74,
+          "label": "witness_shape_incomplete"
+        }
+      ],
+      "repair_to_recovery_edges": [
+        {
+          "source": "split positive mass bucket::structured_candidate_fiber",
+          "target": "Lean-accepted top-k proof",
+          "weight": 0.93,
+          "label": "ranked=[A, B, C]"
+        },
+        {
+          "source": "binary level positive bucket::structured_candidate_fiber",
+          "target": "Lean-accepted top-k proof",
+          "weight": 0.93,
+          "label": "ranked=[A, B, C]"
+        },
+        {
+          "source": "finite level positive bucket::structured_candidate_fiber",
+          "target": "Lean-accepted top-k proof",
+          "weight": 0.93,
+          "label": "ranked=[A, B, C]"
+        },
+        {
+          "source": "finite level threshold bucket::structured_candidate_fiber",
+          "target": "Lean-accepted top-k proof",
+          "weight": 0.93,
+          "label": "ranked=[A, B, C]"
+        }
+      ]
+    },
+    {
+      "model": "qwen2.5-coder:7b",
+      "free_generation": {
+        "checked": 4,
+        "accepted": 0,
+        "rejected": 4
+      },
+      "constrained_ranking": {
+        "checked": 4,
+        "accepted": 4,
+        "rejected": 0,
+        "topk_summary": {
+          "top_1": {
+            "hits": 4,
+            "total": 4,
+            "rate": 1.0
+          },
+          "top_2": {
+            "hits": 4,
+            "total": 4,
+            "rate": 1.0
+          },
+          "top_3": {
+            "hits": 4,
+            "total": 4,
+            "rate": 1.0
+          }
+        }
+      },
+      "failure_class_counts": {
+        "missing_intermediate_state": 1,
+        "near_mathlib_declaration": 3,
+        "placeholder_output": 1,
+        "witness_shape_incomplete": 1
+      },
+      "missing_options_appended_by_colean": {},
+      "failure_to_repair_edges": [
+        {
+          "source": "finite level positive bucket::free_generation_failure",
+          "target": "force candidate IDs only; reject placeholder tactic text",
+          "weight": 0.95,
+          "label": "placeholder_output"
+        },
+        {
+          "source": "split positive mass bucket::free_generation_failure",
+          "target": "map informal tactic phrase to exact Mathlib declaration candidate",
+          "weight": 0.82,
+          "label": "near_mathlib_declaration"
+        },
+        {
+          "source": "binary level positive bucket::free_generation_failure",
+          "target": "map informal tactic phrase to exact Mathlib declaration candidate",
+          "weight": 0.82,
+          "label": "near_mathlib_declaration"
+        },
+        {
+          "source": "finite level threshold bucket::free_generation_failure",
+          "target": "map informal tactic phrase to exact Mathlib declaration candidate",
+          "weight": 0.82,
+          "label": "near_mathlib_declaration"
+        },
+        {
+          "source": "binary level positive bucket::free_generation_failure",
+          "target": "insert intermediate proof-state event before branch/destruct",
+          "weight": 0.78,
+          "label": "missing_intermediate_state"
+        },
+        {
+          "source": "finite level threshold bucket::free_generation_failure",
+          "target": "rank proof-chain candidates that explicitly build the witness tuple",
+          "weight": 0.74,
+          "label": "witness_shape_incomplete"
+        }
+      ],
+      "repair_to_recovery_edges": [
+        {
+          "source": "split positive mass bucket::structured_candidate_fiber",
+          "target": "Lean-accepted top-k proof",
+          "weight": 0.93,
+          "label": "ranked=[A, C, B]"
+        },
+        {
+          "source": "binary level positive bucket::structured_candidate_fiber",
+          "target": "Lean-accepted top-k proof",
+          "weight": 0.93,
+          "label": "ranked=[A, C, B]"
+        },
+        {
+          "source": "finite level positive bucket::structured_candidate_fiber",
+          "target": "Lean-accepted top-k proof",
+          "weight": 0.93,
+          "label": "ranked=[A, C, B]"
+        },
+        {
+          "source": "finite level threshold bucket::structured_candidate_fiber",
+          "target": "Lean-accepted top-k proof",
+          "weight": 0.93,
+          "label": "ranked=[A, B, C]"
+        }
+      ]
+    }
+  ]
+}

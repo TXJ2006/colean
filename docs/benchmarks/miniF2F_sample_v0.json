@@ -73,6 +73,18 @@
       "informal_goal": "",
       "candidates": [
         {
+          "option_id": "abs_split_linarith",
+          "weight": 0.95,
+          "tactics": [
+            "rw [h₂]",
+            "have hx_p_nonneg : 0 ≤ x - p := by linarith",
+            "have hx_15_nonpos : x - 15 ≤ 0 := by linarith",
+            "have hx_p_15_nonpos : x - p - 15 ≤ 0 := by linarith",
+            "rw [abs_of_nonneg hx_p_nonneg, abs_of_nonpos hx_15_nonpos, abs_of_nonpos hx_p_15_nonpos]",
+            "linarith"
+          ]
+        },
+        {
           "option_id": "rfl",
           "weight": 0.5,
           "tactics": [

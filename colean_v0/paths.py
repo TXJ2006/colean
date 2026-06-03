@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 
@@ -12,8 +13,11 @@ def repo_root() -> Path:
 
 
 ROOT = repo_root()
+_mathlib_project_override = os.environ.get("COLEAN_MATHLIB_PROJECT")
 MATHLIB_PROJECT = (
-    ROOT / "colean_mathlib"
+    Path(_mathlib_project_override)
+    if _mathlib_project_override
+    else ROOT / "colean_mathlib"
     if (ROOT / "colean_mathlib").exists()
     else ROOT / "work" / "colean_mathlib"
 )

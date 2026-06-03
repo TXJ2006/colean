@@ -19,6 +19,17 @@ python scripts\import_minif2f_subset.py --limit 10
 python colean_v0\benchmark_harness.py --suite miniF2F_sample_v0 --tasks-json docs\benchmarks\miniF2F_sample_v0.json
 ```
 
+For local Windows runs where the benchmark project lives outside the repository
+or under a short F-drive path, set `COLEAN_MATHLIB_PROJECT`:
+
+```powershell
+$env:COLEAN_MATHLIB_PROJECT='F:\CodexAssets\colean\miniF2F-lean4'
+$env:MATHLIB_CACHE_DIR='F:\CodexAssets\colean\mathlib-cache'
+python colean_v0\benchmark_harness.py --suite miniF2F_sample_v0_quick_top1 `
+  --tasks-json docs\benchmarks\miniF2F_sample_v0.json `
+  --max-tasks 3 --max-candidates 1 --candidate-timeout 90 --progress
+```
+
 The harness reports:
 
 - accepted / rejected task count
@@ -79,6 +90,23 @@ autoformalization-style suites:
 The first imported external subset is
 [`miniF2F_sample_v0.json`](miniF2F_sample_v0.json), generated from
 `yangky11/miniF2F-lean4` at the recorded source revision.
+
+## Current miniF2F Pilot
+
+The first verified miniF2F pilot uses Lean 4.24.0 with Mathlib cache on F drive.
+On the first three imported Test tasks with only the top-ranked candidate per
+task, the current prototype verifies 1 / 3 tasks:
+
+- `aime_1983_p2`: accepted at rank 1 by the structured `abs_split_linarith`
+  candidate
+- `aime_1983_p1`: rejected by the current weak baseline candidate
+- `aime_1983_p3`: rejected by the current weak baseline candidate
+
+This is a pipeline milestone, not a benchmark-grade score: it proves that the
+external miniF2F import, Mathlib toolchain, candidate ranking, and Lean verifier
+loop are connected end to end. The next benchmark step is to improve generated
+structured candidates and then expand from the quick slice to the full selected
+miniF2F subset.
 
 ## Reporting Rule
 

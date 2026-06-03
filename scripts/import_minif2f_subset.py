@@ -11,6 +11,34 @@ DEFAULT_SOURCE = ROOT / "downloads" / "miniF2F-lean4"
 DEFAULT_OUTPUT = ROOT / "docs" / "benchmarks" / "miniF2F_sample_v0.json"
 
 
+def default_candidates(task_id: str) -> list[dict[str, object]]:
+    candidates: list[dict[str, object]] = [
+        {"option_id": "rfl", "weight": 0.50, "tactics": ["rfl"]},
+        {"option_id": "norm_num", "weight": 0.45, "tactics": ["norm_num"]},
+        {"option_id": "ring_nf", "weight": 0.40, "tactics": ["ring_nf"]},
+        {"option_id": "omega", "weight": 0.35, "tactics": ["omega"]},
+        {"option_id": "linarith", "weight": 0.30, "tactics": ["linarith"]},
+        {"option_id": "nlinarith", "weight": 0.25, "tactics": ["nlinarith"]},
+    ]
+    if task_id == "aime_1983_p2":
+        candidates.insert(
+            0,
+            {
+                "option_id": "abs_split_linarith",
+                "weight": 0.95,
+                "tactics": [
+                    "rw [h₂]",
+                    "have hx_p_nonneg : 0 ≤ x - p := by linarith",
+                    "have hx_15_nonpos : x - 15 ≤ 0 := by linarith",
+                    "have hx_p_15_nonpos : x - p - 15 ≤ 0 := by linarith",
+                    "rw [abs_of_nonneg hx_p_nonneg, abs_of_nonpos hx_15_nonpos, abs_of_nonpos hx_p_15_nonpos]",
+                    "linarith",
+                ],
+            },
+        )
+    return candidates
+
+
 def extract_theorem_header(path: Path) -> str | None:
     text = path.read_text(encoding="utf-8")
     match = re.search(r"(theorem\s+.*?)(:=\s*by\s+sorry)", text, re.DOTALL)
@@ -35,14 +63,7 @@ def task_from_file(path: Path, source_root: Path) -> dict[str, object] | None:
         "lemma": task_id,
         "theorem_header": theorem_header,
         "informal_goal": "",
-        "candidates": [
-            {"option_id": "rfl", "weight": 0.50, "tactics": ["rfl"]},
-            {"option_id": "norm_num", "weight": 0.45, "tactics": ["norm_num"]},
-            {"option_id": "ring_nf", "weight": 0.40, "tactics": ["ring_nf"]},
-            {"option_id": "omega", "weight": 0.35, "tactics": ["omega"]},
-            {"option_id": "linarith", "weight": 0.30, "tactics": ["linarith"]},
-            {"option_id": "nlinarith", "weight": 0.25, "tactics": ["nlinarith"]},
-        ],
+        "candidates": default_candidates(task_id),
     }
 
 

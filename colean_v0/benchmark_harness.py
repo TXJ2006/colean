@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import time
 import tempfile
@@ -67,7 +68,11 @@ def load_json_tasks(path: Path) -> list[BenchmarkTask]:
 
     tasks: list[BenchmarkTask] = []
     for row in rows:
-        project_path = Path(str(row.get("project_path", MATHLIB_PROJECT)))
+        project_path = (
+            MATHLIB_PROJECT
+            if os.environ.get("COLEAN_MATHLIB_PROJECT")
+            else Path(str(row.get("project_path", MATHLIB_PROJECT)))
+        )
         if not project_path.is_absolute():
             project_path = ROOT / project_path
         candidates = tuple(
@@ -161,7 +166,12 @@ def candidate_uses_forbidden_placeholder(candidate: BenchmarkCandidate) -> bool:
     return any(any(word in tactic for word in forbidden) for tactic in candidate.tactics)
 
 
-def check_benchmark_candidate(task: BenchmarkTask, candidate: BenchmarkCandidate) -> dict[str, Any]:
+def check_benchmark_candidate(
+    task: BenchmarkTask,
+    candidate: BenchmarkCandidate,
+    *,
+    timeout_seconds: int,
+) -> dict[str, Any]:
     if candidate_uses_forbidden_placeholder(candidate):
         return {
             "accepted_by_lean": False,
@@ -187,15 +197,23 @@ def check_benchmark_candidate(task: BenchmarkTask, candidate: BenchmarkCandidate
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / "Candidate.lean"
         path.write_text(source, encoding="utf-8")
-        proc = subprocess.run(
-            ["lake", "env", "lean", str(path)],
-            cwd=task.project_path,
-            text=True,
-            capture_output=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=180,
-        )
+        try:
+            proc = subprocess.run(
+                ["lake", "env", "lean", str(path)],
+                cwd=task.project_path,
+                text=True,
+                capture_output=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=timeout_seconds,
+            )
+        except subprocess.TimeoutExpired as exc:
+            return {
+                "accepted_by_lean": False,
+                "returncode": -2,
+                "stdout": exc.stdout or "",
+                "stderr": f"candidate timed out after {timeout_seconds}s",
+            }
     output = f"{proc.stdout}\n{proc.stderr}"
     accepted = proc.returncode == 0 and "declaration uses 'sorry'" not in output
     return {
@@ -206,15 +224,33 @@ def check_benchmark_candidate(task: BenchmarkTask, candidate: BenchmarkCandidate
     }
 
 
-def verify_task(task: BenchmarkTask) -> dict[str, Any]:
+def verify_task(
+    task: BenchmarkTask,
+    *,
+    max_candidates: int | None,
+    timeout_seconds: int,
+    progress: bool,
+) -> dict[str, Any]:
     ranked = sorted(task.candidates, key=lambda candidate: candidate.weight, reverse=True)
+    if max_candidates is not None:
+        ranked = ranked[:max_candidates]
     checked = []
     first_accept_rank: int | None = None
     started = time.perf_counter()
 
     for rank, candidate in enumerate(ranked, start=1):
+        if progress:
+            print(
+                f"[verify] {task.task_id} candidate {rank}/{len(ranked)} "
+                f"({candidate.option_id})",
+                flush=True,
+            )
         candidate_start = time.perf_counter()
-        result = check_benchmark_candidate(task, candidate)
+        result = check_benchmark_candidate(
+            task,
+            candidate,
+            timeout_seconds=timeout_seconds,
+        )
         elapsed = round(time.perf_counter() - candidate_start, 4)
         accepted = bool(result["accepted_by_lean"])
         if accepted and first_accept_rank is None:
@@ -301,9 +337,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run CoLean benchmark-style verification metrics.")
     parser.add_argument("--suite", default="colean_smoke_v0", help="Suite name for output files.")
     parser.add_argument("--tasks-json", type=Path, help="Optional external benchmark task JSON.")
+    parser.add_argument("--max-tasks", type=int, help="Optional cap for quick benchmark slices.")
+    parser.add_argument("--max-candidates", type=int, help="Optional candidate cap per task.")
+    parser.add_argument("--candidate-timeout", type=int, default=180, help="Seconds per Lean candidate.")
+    parser.add_argument("--progress", action="store_true", help="Print per-candidate progress.")
     args = parser.parse_args()
 
     tasks = load_json_tasks(args.tasks_json) if args.tasks_json else colean_smoke_tasks()
+    if args.max_tasks is not None:
+        tasks = tasks[: args.max_tasks]
     cache = [
         prepare_project_cache(project, imports)
         for project, imports in sorted(
@@ -311,7 +353,15 @@ def main() -> None:
             key=lambda item: str(item[0]),
         )
     ]
-    results = [verify_task(task) for task in tasks]
+    results = [
+        verify_task(
+            task,
+            max_candidates=args.max_candidates,
+            timeout_seconds=args.candidate_timeout,
+            progress=args.progress,
+        )
+        for task in tasks
+    ]
     summary = {
         "experiment": "CoLean benchmark harness",
         "suite": args.suite,

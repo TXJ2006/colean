@@ -197,6 +197,31 @@
       "informal_goal": "",
       "candidates": [
         {
+          "option_id": "arithmetic_progression_sum",
+          "weight": 0.96,
+          "tactics": [
+            "have hstep : ∀ n : ℕ, u n = u 0 + n := by",
+            "  intro n",
+            "  induction n with",
+            "  | zero => norm_num",
+            "  | succ n ih =>",
+            "      rw [h₀ n, ih]",
+            "      norm_num",
+            "have hsum98 : (∑ k ∈ Finset.range 98, (u 0 + (k.succ : ℚ))) = 137 := by",
+            "  simpa [hstep] using h₁",
+            "have hu0 : u 0 = -481 := by",
+            "  norm_num at hsum98",
+            "  linarith",
+            "calc",
+            "  ∑ k ∈ Finset.range 49, u (2 * k.succ) = ∑ k ∈ Finset.range 49, (u 0 + ((2 * k.succ : ℕ) : ℚ)) := by",
+            "    apply Finset.sum_congr rfl",
+            "    intro k hk",
+            "    rw [hstep]",
+            "  _ = 93 := by",
+            "    norm_num [hu0]"
+          ]
+        },
+        {
           "option_id": "rfl",
           "weight": 0.5,
           "tactics": [

@@ -330,6 +330,24 @@ def render_markdown(summary: dict[str, Any]) -> str:
             f"| {row['task_id']} | {row['lemma']} | {row['accepted']} | "
             f"{row['first_accepted_rank']} | {row['time_to_first_verified_seconds']} |"
         )
+    lines.extend(
+        [
+            "",
+            "## Candidate Detail",
+            "",
+            "| task | rank | option | accepted | stderr excerpt |",
+            "|---|---:|---|---:|---|",
+        ]
+    )
+    for row in summary["results"]:
+        for checked in row["checked"]:
+            stderr = str(checked["stderr"]).replace("\n", " ").replace("|", "\\|")
+            if len(stderr) > 220:
+                stderr = stderr[:217] + "..."
+            lines.append(
+                f"| {row['task_id']} | {checked['rank']} | {checked['option_id']} | "
+                f"{checked['accepted']} | {stderr or '-'} |"
+            )
     return "\n".join(lines) + "\n"
 
 

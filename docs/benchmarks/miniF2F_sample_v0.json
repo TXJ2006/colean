@@ -421,6 +421,13 @@
       "informal_goal": "",
       "candidates": [
         {
+          "option_id": "linear_combination_linarith",
+          "weight": 0.96,
+          "tactics": [
+            "linarith [h₀, h₁, h₂]"
+          ]
+        },
+        {
           "option_id": "rfl",
           "weight": 0.5,
           "tactics": [

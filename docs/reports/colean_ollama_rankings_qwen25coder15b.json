@@ -1,0 +1,77 @@
+{
+  "experiment": "Local Ollama proof-chain ranking export",
+  "host": "http://127.0.0.1:11434",
+  "model": "qwen2.5-coder:1.5b",
+  "server_started_by_script": false,
+  "task_count": 4,
+  "rankings": [
+    {
+      "lemma": "split positive mass bucket",
+      "model_ranked_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "missing_option_ids_appended_by_colean": [],
+      "ranked_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "elapsed_seconds": 9.528,
+      "parse_error": "",
+      "raw_response": "```json\n{\n  \"ranked_option_ids\": [\"A\", \"B\", \"C\"]\n}\n```"
+    },
+    {
+      "lemma": "binary level positive bucket",
+      "model_ranked_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "missing_option_ids_appended_by_colean": [],
+      "ranked_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "elapsed_seconds": 7.153,
+      "parse_error": "",
+      "raw_response": "```json\n{\n  \"ranked_option_ids\": [\"A\", \"B\", \"C\"]\n}\n```"
+    },
+    {
+      "lemma": "finite level positive bucket",
+      "model_ranked_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "missing_option_ids_appended_by_colean": [],
+      "ranked_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "elapsed_seconds": 7.819,
+      "parse_error": "",
+      "raw_response": "```json\n{\n  \"ranked_option_ids\": [\"A\", \"B\", \"C\"]\n}\n```"
+    },
+    {
+      "lemma": "finite level threshold bucket",
+      "model_ranked_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "missing_option_ids_appended_by_colean": [],
+      "ranked_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "elapsed_seconds": 6.047,
+      "parse_error": "",
+      "raw_response": "```json\n{\n  \"ranked_option_ids\": [\"A\", \"B\", \"C\"]\n}\n```"
+    }
+  ]
+}

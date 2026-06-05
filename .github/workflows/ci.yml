@@ -28,12 +28,19 @@ jobs:
       - name: Verify proof-chain candidates
         env:
           COLEAN_MATHLIB_PROJECT: ${{ github.workspace }}/colean_mathlib
-        run: python colean_v0/proof_chain_verifier.py
+        run: |
+          python colean_v0/proof_chain_verifier.py
+          cat outputs/colean_proof_chain_verifier_report.md
       - name: Verify exported Ollama ranking fixture
         env:
           COLEAN_MATHLIB_PROJECT: ${{ github.workspace }}/colean_mathlib
-        run: python colean_v0/verify_ranked_options.py docs/reports/colean_ollama_rankings_qwen25coder15b.json
+        run: |
+          python colean_v0/verify_ranked_options.py docs/reports/colean_ollama_rankings_qwen25coder15b.json
+          cat outputs/colean_ollama_ranking_verification.md
       - name: Run miniF2F sample benchmark
         env:
           COLEAN_MATHLIB_PROJECT: ${{ github.workspace }}/colean_mathlib
-        run: python colean_v0/benchmark_harness.py --suite miniF2F_sample_v0_ci --tasks-json docs/benchmarks/miniF2F_sample_v0.json --candidate-timeout 180 --progress
+        run: |
+          python colean_v0/benchmark_harness.py --suite miniF2F_sample_v0_ci --tasks-json docs/benchmarks/miniF2F_sample_v0.json --candidate-timeout 180 --progress
+          cat outputs/benchmarks/miniF2F_sample_v0_ci.md
+          python -c "import json; d=json.load(open('outputs/benchmarks/miniF2F_sample_v0_ci.json')); assert d['accepted'] >= 2, d"

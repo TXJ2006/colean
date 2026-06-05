@@ -6,6 +6,7 @@ import os
 import subprocess
 import time
 import tempfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -363,6 +364,7 @@ def main() -> None:
     parser.add_argument("--candidate-timeout", type=int, default=180, help="Seconds per Lean candidate.")
     parser.add_argument("--progress", action="store_true", help="Print per-candidate progress.")
     parser.add_argument("--stop-after-first-accept", action="store_true", help="Stop checking a task after its first accepted candidate.")
+    parser.add_argument("--max-workers", type=int, default=1, help="Number of benchmark tasks to verify in parallel.")
     args = parser.parse_args()
 
     tasks = load_json_tasks(args.tasks_json) if args.tasks_json else colean_smoke_tasks()
@@ -375,16 +377,34 @@ def main() -> None:
             key=lambda item: str(item[0]),
         )
     ]
-    results = [
-        verify_task(
-            task,
-            max_candidates=args.max_candidates,
-            timeout_seconds=args.candidate_timeout,
-            progress=args.progress,
-            stop_after_first_accept=args.stop_after_first_accept,
-        )
-        for task in tasks
-    ]
+    if args.max_workers <= 1:
+        results = [
+            verify_task(
+                task,
+                max_candidates=args.max_candidates,
+                timeout_seconds=args.candidate_timeout,
+                progress=args.progress,
+                stop_after_first_accept=args.stop_after_first_accept,
+            )
+            for task in tasks
+        ]
+    else:
+        indexed_results: dict[int, dict[str, Any]] = {}
+        with ThreadPoolExecutor(max_workers=args.max_workers) as executor:
+            futures = {
+                executor.submit(
+                    verify_task,
+                    task,
+                    max_candidates=args.max_candidates,
+                    timeout_seconds=args.candidate_timeout,
+                    progress=args.progress,
+                    stop_after_first_accept=args.stop_after_first_accept,
+                ): index
+                for index, task in enumerate(tasks)
+            }
+            for future in as_completed(futures):
+                indexed_results[futures[future]] = future.result()
+        results = [indexed_results[index] for index in range(len(tasks))]
     summary = {
         "experiment": "CoLean benchmark harness",
         "suite": args.suite,

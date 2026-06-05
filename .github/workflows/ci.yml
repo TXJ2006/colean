@@ -41,6 +41,6 @@ jobs:
         env:
           COLEAN_MATHLIB_PROJECT: ${{ github.workspace }}/colean_mathlib
         run: |
-          python colean_v0/benchmark_harness.py --suite miniF2F_sample_v0_ci --tasks-json docs/benchmarks/miniF2F_sample_v0.json --candidate-timeout 60 --progress --stop-after-first-accept
+          python colean_v0/benchmark_harness.py --suite miniF2F_sample_v0_ci --tasks-json docs/benchmarks/miniF2F_sample_v0.json --candidate-timeout 25 --progress --stop-after-first-accept --max-workers 4
           cat outputs/benchmarks/miniF2F_sample_v0_ci.md
           python -c "import json; d=json.load(open('outputs/benchmarks/miniF2F_sample_v0_ci.json')); assert d['accepted'] >= 2, d"

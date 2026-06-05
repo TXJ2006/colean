@@ -25,6 +25,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Run miniF2F sample benchmark
+        env:
+          COLEAN_MATHLIB_PROJECT: ${{ github.workspace }}/colean_mathlib
+        run: |
+          python colean_v0/benchmark_harness.py --suite miniF2F_sample_v0_ci --tasks-json docs/benchmarks/miniF2F_sample_v0.json --candidate-timeout 25 --progress --stop-after-first-accept --max-workers 4
+          cat outputs/benchmarks/miniF2F_sample_v0_ci.md
+          python -c "import json; d=json.load(open('outputs/benchmarks/miniF2F_sample_v0_ci.json')); assert d['accepted'] >= 2, d"
       - name: Verify proof-chain candidates
         env:
           COLEAN_MATHLIB_PROJECT: ${{ github.workspace }}/colean_mathlib
@@ -37,10 +44,3 @@ jobs:
         run: |
           python colean_v0/verify_ranked_options.py docs/reports/colean_ollama_rankings_qwen25coder15b.json
           cat outputs/colean_ollama_ranking_verification.md
-      - name: Run miniF2F sample benchmark
-        env:
-          COLEAN_MATHLIB_PROJECT: ${{ github.workspace }}/colean_mathlib
-        run: |
-          python colean_v0/benchmark_harness.py --suite miniF2F_sample_v0_ci --tasks-json docs/benchmarks/miniF2F_sample_v0.json --candidate-timeout 25 --progress --stop-after-first-accept --max-workers 4
-          cat outputs/benchmarks/miniF2F_sample_v0_ci.md
-          python -c "import json; d=json.load(open('outputs/benchmarks/miniF2F_sample_v0_ci.json')); assert d['accepted'] >= 2, d"

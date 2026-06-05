@@ -230,6 +230,7 @@ def verify_task(
     max_candidates: int | None,
     timeout_seconds: int,
     progress: bool,
+    stop_after_first_accept: bool,
 ) -> dict[str, Any]:
     ranked = sorted(task.candidates, key=lambda candidate: candidate.weight, reverse=True)
     if max_candidates is not None:
@@ -266,6 +267,8 @@ def verify_task(
                 "stderr": result["stderr"],
             }
         )
+        if accepted and stop_after_first_accept:
+            break
 
     return {
         "task_id": task.task_id,
@@ -359,6 +362,7 @@ def main() -> None:
     parser.add_argument("--max-candidates", type=int, help="Optional candidate cap per task.")
     parser.add_argument("--candidate-timeout", type=int, default=180, help="Seconds per Lean candidate.")
     parser.add_argument("--progress", action="store_true", help="Print per-candidate progress.")
+    parser.add_argument("--stop-after-first-accept", action="store_true", help="Stop checking a task after its first accepted candidate.")
     args = parser.parse_args()
 
     tasks = load_json_tasks(args.tasks_json) if args.tasks_json else colean_smoke_tasks()
@@ -377,6 +381,7 @@ def main() -> None:
             max_candidates=args.max_candidates,
             timeout_seconds=args.candidate_timeout,
             progress=args.progress,
+            stop_after_first_accept=args.stop_after_first_accept,
         )
         for task in tasks
     ]
